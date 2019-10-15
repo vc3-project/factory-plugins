@@ -74,9 +74,9 @@ class CondorSSHRemoteManager(CondorBase):
             self._createSSHConfig()
             
             #Handle bosco if we're using regular SSH
-            if self.method == 'ssh':
+            if self.method in ('ssh', 'sshproxy'):
                 self._getSSHAuthTokens()
-                self.log.debug("Method is ssh")
+                self.log.debug("Method is %s" % self.method)
                 self.log.debug("calling remote manager with options %s, %s , %s , %s , %s , %s , %s , %s" % (self.user, self.host, self.port, self.batch, self.pubkeyfile, self.privkeyfile, self.passfile, self.authprofile))
                 self.rgahp = remotemanager.Manage()
                 # rgahp._checktarget returns the glite installation dir
@@ -186,7 +186,7 @@ class CondorSSHRemoteManager(CondorBase):
         
         self.log.debug('CondorBosco.addJSD: Starting.')
         self.JSD.add("universe", "grid")
-        if self.method == 'ssh':
+        if self.method in ('ssh', 'sshproxy'):
             self.JSD.add('grid_resource', 'batch %s %s@%s --rgahp-key %s --rgahp-glite %s ' % (self.batch, 
                                                               self.user,
                                                               self.host, 
