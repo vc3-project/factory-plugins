@@ -73,7 +73,7 @@ class Manage(object):
         koptions = dict(Cluster=cluster, SSHManager=ssh, lrms=batch, installdir=installdir, patchset=resourcename, sandbox=sandboxdir)
 	    # TODO  - move these into defaults
         # TODO  - this is kind of a nasty hack.
-        if host in ('cori.nersc.gov', 'h2ologin.ncsa.illinois.edu'):
+        if '.nersc.gov' or 'h2ologin.ncsa.illinois.edu' in host:
             koptions.update(rdistro="RedHat6")
 
         bosco = Bosco(**koptions)
