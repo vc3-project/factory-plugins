@@ -58,6 +58,7 @@ class CondorSSHRemoteManager(CondorBase):
             self.port = qcl.generic_get(self.apfqname,'batchsubmit.condorsshremotemanager.port' )
             self.user = qcl.generic_get(self.apfqname,'batchsubmit.condorsshremotemanager.user' )
             self.authprofile  = qcl.generic_get(self.apfqname,'batchsubmit.condorsshremotemanager.authprofile' )
+            self.sandboxdir  = qcl.generic_get(self.apfqname,'batchsubmit.condorsshremotemanager.sandboxdir', default_value=None)
             self.log.debug("SSH target attributes gathered from config. ")
 
             
@@ -77,7 +78,7 @@ class CondorSSHRemoteManager(CondorBase):
             if self.method in ('ssh', 'sshproxy'):
                 self._getSSHAuthTokens()
                 self.log.debug("Method is %s" % self.method)
-                self.log.debug("calling remote manager with options %s, %s , %s , %s , %s , %s , %s , %s" % (self.user, self.host, self.port, self.batch, self.pubkeyfile, self.privkeyfile, self.passfile, self.authprofile))
+                self.log.debug("calling remote manager with options %s, %s , %s , %s , %s , %s , %s , %s, %s" % (self.user, self.host, self.port, self.batch, self.pubkeyfile, self.privkeyfile, self.passfile, self.authprofile, self.sandboxdir))
                 self.rgahp = remotemanager.Manage()
                 # rgahp._checktarget returns the glite installation dir
                 self.glite = self.rgahp._checktarget(user=self.user,
@@ -87,7 +88,8 @@ class CondorSSHRemoteManager(CondorBase):
                                            pubkeyfile=self.pubkeyfile, 
                                            privkeyfile=self.privkeyfile, 
                                            passfile=self.passfile,
-                                           authprofile=self.authprofile)
+                                           authprofile=self.authprofile,
+                                           sandboxdir=self.sandboxdir)
             if self.method == 'gsissh':
                 self._getGSISSHAuthTokens()
                 self.log.debug("Method is gsissh")
@@ -99,7 +101,8 @@ class CondorSSHRemoteManager(CondorBase):
                                            port=self.port, 
                                            batch=self.batch, 
                                            x509proxyfile=self.x509proxyfile, 
-                                           authprofile=self.authprofile)
+                                           authprofile=self.authprofile,
+                                           sandboxdir=self.sandboxdir)
             
             self.log.info('CondorSSHRemoteManager: Object initialized.')
             

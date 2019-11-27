@@ -39,6 +39,7 @@ class Manage(object):
         passfile      = kwargs.get('passfile', None)
         authprofile   = kwargs.get('authprofile', None)
         x509proxyfile = kwargs.get('x509proxyfile', None)
+        sandboxdir    = kwargs.get('sandboxdir', None)
 
         if pubkeyfile and privkeyfile:
             method = 'ssh'
@@ -69,8 +70,8 @@ class Manage(object):
 
         cluster = Cluster(ssh)
 
-        koptions = dict(Cluster=cluster, SSHManager=ssh, lrms=batch, installdir=installdir, patchset=resourcename)
-	# TODO  - move these into defaults
+        koptions = dict(Cluster=cluster, SSHManager=ssh, lrms=batch, installdir=installdir, patchset=resourcename, sandbox=sandboxdir)
+	    # TODO  - move these into defaults
         # TODO  - this is kind of a nasty hack.
         if host in ('cori.nersc.gov', 'h2ologin.ncsa.illinois.edu'):
             koptions.update(rdistro="RedHat6")
